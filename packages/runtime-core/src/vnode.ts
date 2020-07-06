@@ -14,7 +14,8 @@ import {
   ComponentInternalInstance,
   Data,
   Component,
-  ClassComponent
+  ClassComponent,
+  formatComponentName
 } from './component'
 import { RawSlots } from './componentSlots'
 import { isProxy, Ref, toRaw } from '@vue/reactivity'
@@ -381,6 +382,11 @@ function _createVNode(
     dynamicProps,
     dynamicChildren: null,
     appContext: null
+  }
+
+  // validate key
+  if (__DEV__ && vnode.key !== vnode.key) {
+    warn(`VNode created with invalid key (NaN). VNode type:`, vnode.type)
   }
 
   normalizeChildren(vnode, children)
